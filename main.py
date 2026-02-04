@@ -28,11 +28,10 @@ def list_programs():
 
 def is_app_open(exe):
     for proc in psutil.process_iter(['name']):
-        print(proc)
         try:
             if exe.lower() in proc.info['name'].lower():
                 return True
-                
+
         except (psutil.NoSuchProcess, psutil.AccessDenied):
             pass
 
@@ -49,6 +48,7 @@ def open_app(exe, path):
     else:
         print("Program " + exe + " already running")
 
+
 def close_app(exe):
     matches = []
     for proc in psutil.process_iter(['pid', 'name', 'exe', 'cmdline']):
@@ -58,20 +58,20 @@ def close_app(exe):
                 matches.append(proc)
         except (psutil.NoSuchProcess, psutil.AccessDenied):
             continue
-    
+
     if not matches:
         print("App not running")
         return
-    
+
     for proc in matches:
         proc.terminate()
 
-    
 
 def search(name):
     for app in programs:
         if app.get("name") == name and app.get("path") is not None:
             return app
+
 
 def create_mode(*args):
     apps = []
@@ -84,8 +84,12 @@ def create_mode(*args):
     return apps
 
 
+def open_mode(mode):
+    for program in mode:
+        open_app(program.get("exe"), program.get("path"))
+
+
 programs = list_programs()
 
-program = search("Wallpaper Engine")
-
-is_app_open(program.get("exe"))
+study = create_mode("Google Chrome", "Audacity 3.1.3")
+open_mode(study)
