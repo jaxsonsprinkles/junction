@@ -88,8 +88,16 @@ def open_mode(mode):
     for program in mode:
         open_app(program.get("exe"), program.get("path"))
 
+def switch_mode(close, open):
+    for program in close:
+        close_app(program.get("exe"))
+    for program in open:
+        open_app(program.get("exe"), program.get("path"))
 
 programs = list_programs()
+print(programs)
 
-study = create_mode("Google Chrome", "Audacity 3.1.3")
-open_mode(study)
+relax = create_mode("LocalSend version 1.17.0")
+study = create_mode("Google Chrome", "Cursor")
+
+switch_mode(relax, study)
