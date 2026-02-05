@@ -5,6 +5,7 @@ import psutil
 import winapps
 
 
+
 def list_programs():
     blacklist = ['unins000.exe', 'svchost.exe', 'conhost.exe']
     program_list = []
@@ -24,7 +25,6 @@ def list_programs():
             pass
 
     return program_list
-
 
 def is_app_open(exe):
     for proc in psutil.process_iter(['name']):
@@ -85,15 +85,19 @@ def create_mode(*args):
 
 
 def open_mode(mode):
+    global current_mode
     for program in mode:
         open_app(program.get("exe"), program.get("path"))
+    current_mode = mode
 
 def switch_mode(close, open):
+    global current_mode
     for program in close:
         close_app(program.get("exe"))
     for program in open:
         open_app(program.get("exe"), program.get("path"))
-
+    current_mode = open
+current_mode = None
 programs = list_programs()
 print(programs)
 
